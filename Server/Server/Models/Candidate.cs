@@ -13,7 +13,7 @@ namespace Server.Models
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public Gender Gender { get; set; }
-        public CandidateType CandidateType { get; set; }
+        public ProfessionalTitle CandidateType { get; set; }
         public Resume Resume { get; set; }
         public SocialMedia SocialMedia { get; set; }
     }

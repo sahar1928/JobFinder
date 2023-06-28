@@ -165,128 +165,159 @@ const jobs = [
     },
   ];
 
- const skills = [
+    const skills = [
       {
         id: 1,
-        name: "JavaScript"
+        name: "JavaScript",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 2,
-        name: "Python"
+        name: "Python",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 3,
-        name: "Java"
+        name: "Java",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 4,
-        name: "C#"
+        name: "C#",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 5,
-        name: "C++"
+        name: "C++",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 6,
-        name: "Ruby"
+        name: "Ruby",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 7,
-        name: "HTML/CSS"
+        name: "HTML/CSS",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 8,
-        name: "SQL"
+        name: "SQL",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 9,
-        name: "React"
+        name: "React",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 10,
-        name: "Angular"
+        name: "Angular",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 11,
-        name: "Vue.js"
+        name: "Vue.js",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 12,
-        name: "Node.js"
+        name: "Node.js",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 13,
-        name: "Express.js"
+        name: "Express.js",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 14,
-        name: "MongoDB"
+        name: "MongoDB",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 15,
-        name: "AWS"
+        name: "AWS",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 16,
-        name: "Docker"
+        name: "Docker",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 17,
-        name: "Kubernetes"
+        name: "Kubernetes",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 18,
-        name: "Machine Learning"
+        name: "Machine Learning",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 19,
-        name: "Data Science"
+        name: "Data Science",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 20,
-        name: "Artificial Intelligence"
+        name: "Artificial Intelligence",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 21,
-        name: "Cybersecurity"
+        name: "Cybersecurity",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 22,
-        name: "Big Data"
+        name: "Big Data",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 23,
-        name: "DevOps"
+        name: "DevOps",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 24,
-        name: "UI/UX Design"
+        name: "UI/UX Design",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 25,
-        name: "Blockchain"
+        name: "Blockchain",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 26,
-        name: "AR/VR"
+        name: "AR/VR",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 27,
-        name: "Mobile App Development"
+        name: "Mobile App Development",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 28,
-        name: "Embedded Systems"
+        name: "Embedded Systems",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 29,
-        name: "Robotics"
+        name: "Robotics",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       },
       {
         id: 30,
-        name: "Quantum Computing"
+        name: "Quantum Computing",
+        experienceRanges: [[0, 1], [1, 3], [3, 5], [5, 40]]
       }
-    ]
+    ];
+    
 
 const locations = [  
     {

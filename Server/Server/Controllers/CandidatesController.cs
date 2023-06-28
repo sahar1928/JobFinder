@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace LastOne.Controllers
+namespace Server.Controllers
 {
     public class CandidatesController : ApiController
     {

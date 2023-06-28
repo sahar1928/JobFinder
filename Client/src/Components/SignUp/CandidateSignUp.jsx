@@ -7,6 +7,7 @@ const CandidateSignUp = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [gender, setGender] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -16,10 +17,12 @@ const CandidateSignUp = () => {
   const [videoURL, setVideoURL] = useState("");
   const [resumeCategory, setResumeCategory] = useState("");
   const [selectedSkills, setSelectedSkills] = useState([]);
-  const [availableSkills, setAvailableSkills] = useState([...skills]);
+  const [availableSkills, setAvailableSkills] = useState(skills);
+  const [selectedExperienceAndSkill, setSelectedExperienceAndSkill] = useState(
+    []
+  );
   const [linkedinURL, setLinkedinURL] = useState("");
   const [facebookURL, setFacebookURL] = useState("");
-  const [resumeContent, setResumeContent] = useState("");
   const [photoFile, setPhotoFile] = useState(null);
   const [institutionName, setInstitutionName] = useState("");
   const [qualification, setQualification] = useState("");
@@ -30,7 +33,6 @@ const CandidateSignUp = () => {
   const [jobTitle, setJobTitle] = useState("");
   const [experienceStartDate, setExperienceStartDate] = useState("");
   const [experienceEndDate, setExperienceEndDate] = useState("");
-  const [experienceNotes, setExperienceNotes] = useState("");
   const [resumeFile, setResumeFile] = useState(null);
 
   const handleFormSubmit = async (e) => {
@@ -49,7 +51,6 @@ const CandidateSignUp = () => {
       !videoURL ||
       !resumeCategory ||
       !selectedSkills ||
-      !resumeContent ||
       !photoFile ||
       !institutionName ||
       !qualification ||
@@ -86,7 +87,6 @@ const CandidateSignUp = () => {
           linkedinURL,
           facebookURL,
         },
-        resumeContent,
         photoFile,
         educations: [
           {
@@ -103,12 +103,11 @@ const CandidateSignUp = () => {
             jobTitle,
             startDate: experienceStartDate,
             endDate: experienceEndDate,
-            notes: experienceNotes,
           },
         ],
         resumeFile,
       };
-      
+
       const candidate = {
         username,
         password,
@@ -117,20 +116,20 @@ const CandidateSignUp = () => {
         lastName,
         dateOfBirth,
         gender,
-        candidateType,
+        professionalTitle,
         resumeData,
         socialMedia: {
           linkedinURL,
           facebookURL,
-        }
-      }
+        },
+      };
 
       const response = await fetch(URL + "Candidates", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(resumeData),
+        body: JSON.stringify(candidate),
       });
 
       if (response.ok) {
@@ -145,11 +144,10 @@ const CandidateSignUp = () => {
         setDateOfBirth("");
         setVideoURL("");
         setResumeCategory("");
-        setSelectedSkills("");
-        setAvailableSkills("");
+        setSelectedSkills([]);
+        setAvailableSkills(skills);
         setLinkedinURL("");
         setFacebookURL("");
-        setResumeContent("");
         setPhotoFile(null);
         setInstitutionName("");
         setQualification("");
@@ -160,7 +158,6 @@ const CandidateSignUp = () => {
         setJobTitle("");
         setExperienceStartDate("");
         setExperienceEndDate("");
-        setExperienceNotes("");
         setResumeFile(null);
       } else {
         toast.error("Failed to create resume");
@@ -171,24 +168,51 @@ const CandidateSignUp = () => {
   };
 
   const handleAddSkill = (skill) => {
-    const updatedAvailableSkills = availableSkills.filter(
-      (item) => item.id !== skill.id
-    );
-    const updatedSelectedSkills = [...selectedSkills, skill];
+    const selectedSkill = {
+      id: skill.id,
+      name: skill.name,
+      experienceRanges: skill.experienceRanges, // Default range is the first one
+    };
 
-    setSelectedSkills(updatedSelectedSkills);
-    setAvailableSkills(updatedAvailableSkills);
+    setSelectedSkills([...selectedSkills, selectedSkill]);
+    setAvailableSkills(availableSkills.filter((item) => item.id !== skill.id));
   };
 
   const handleRemoveSkill = (skill) => {
     const updatedSelectedSkills = selectedSkills.filter(
       (item) => item.id !== skill.id
     );
-    const updatedAvailableSkills = [...availableSkills, skill];
+    const updatedAvailableSkills = [
+      ...availableSkills,
+      {
+        id: skill.id,
+        name: skill.name,
+        experienceRanges: skill.experienceRanges,
+      },
+    ];
 
     setSelectedSkills(updatedSelectedSkills);
     setAvailableSkills(updatedAvailableSkills);
   };
+
+  const handleExperienceChange = (skillId, experienceRange) => {
+    const updatedSelectedExperienceAndSkill = selectedSkills.map(
+      (skill) => {
+        if (skill.id === skillId) {
+          return {
+            id: skill.id,
+            name: skill.name,
+            minExperience: experienceRange[0],
+            maxExperience: experienceRange[1],
+          };
+        }
+        return skill;
+      }
+    );
+    console.log(updatedSelectedExperienceAndSkill);
+    setSelectedExperienceAndSkill(updatedSelectedExperienceAndSkill);
+  };
+  
 
   return (
     <div className="jm-post-job-area pt-95 pb-60">
@@ -284,14 +308,20 @@ const CandidateSignUp = () => {
             />
           </div>
           <div className="col-xl-6 col-md-6">
-            <input
-              type="text"
-              placeholder="Professional Title"
-              value={professionalTitle}
+            <select
+              placeholder="Proffesional Title"
+              className="jm-job-select form-control"
+              value={gender}
               onChange={(e) => setProfessionalTitle(e.target.value)}
-              className="form-control"
               style={{ border: "1px solid black" }}
-            />
+            >
+              <option selected value="">
+                Pro
+              </option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
           </div>
           <div className="col-xl-6 col-md-6">
             <input
@@ -336,7 +366,22 @@ const CandidateSignUp = () => {
               <option>TEXT</option>
             </select>
           </div>
-
+          <div className="col-xl-6 col-md-6">
+            <select
+              placeholder="Gender Selection"
+              className="jm-job-select form-control"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              style={{ border: "1px solid black" }}
+            >
+              <option selected value="">
+                Gender Selection
+              </option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+          </div>
           <div className="col-xl-12 col-md-12">
             <select
               className="jm-job-select form-control"
@@ -351,8 +396,8 @@ const CandidateSignUp = () => {
               <option value="Select a skill" disabled>
                 Select a skill
               </option>
-              {availableSkills.map((skill, key) => (
-                <option key={key} value={skill.name}>
+              {availableSkills.map((skill) => (
+                <option key={skill.id} value={skill.name}>
                   {skill.name}
                 </option>
               ))}
@@ -362,22 +407,45 @@ const CandidateSignUp = () => {
           <div className="col-xl-12 col-md-12">
             <h4 className="jm-have-account-title">Selected Skills: </h4>
             <div className="jm-create-new-section mb-40">
-
-                {selectedSkills && 
-                  selectedSkills.map((skill, key) => (
-                    <span className="ml-10 mb-30" key={key}>
-                      {skill.name}
-                      <button
-                        className="jm-job-acc ml-10 "
-                        onClick={() => handleRemoveSkill(skill)}
-                      >
-                        Remove
-                      </button>
-                    </span>
+              {selectedSkills.map((skill) => (
+                <div key={skill.id}>
+                  <span className="ml-10 mb-30">{skill.name}</span>
+                  {skill.experienceRanges.map((range, index) => (
+                    <div key={index}>
+                      <label>
+                        <input
+                          type="radio"
+                          name={`experience-${skill.id}`}
+                          value={`${range[0]},${range[1]}`}
+                          checked={
+                            range[0] ===
+                              selectedExperienceAndSkill.find(
+                                (item) => item.id === skill.id
+                              )?.minExperience &&
+                            range[1] ===
+                              selectedExperienceAndSkill.find(
+                                (item) => item.id === skill.id
+                              )?.maxExperience
+                          }
+                          onChange={() =>
+                            handleExperienceChange(skill.id, range)
+                          }
+                        />
+                        {`${range[0]}-${range[1]} years of experience`}
+                      </label>
+                    </div>
                   ))}
-
+                  <button
+                    className="jm-job-acc ml-10"
+                    onClick={() => handleRemoveSkill(skill)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
+
           <div className="row">
             <div className="col-xl-6 col-md-6">
               <b>Linkedin URL</b>
@@ -403,15 +471,6 @@ const CandidateSignUp = () => {
                 style={{ border: "1px solid black" }}
               />
             </div>
-          </div>
-          <div className="col-xl-12 col-md-6">
-            <textarea
-              placeholder="Resume Content"
-              value={resumeContent}
-              onChange={(e) => setResumeContent(e.target.value)}
-              className="form-control"
-              style={{ border: "1px solid black" }}
-            ></textarea>
           </div>
           <div className="col-xl-12">
             <div className="choose-file">
@@ -468,13 +527,6 @@ const CandidateSignUp = () => {
               className="form-control"
               style={{ border: "1px solid black" }}
             />
-            <textarea
-              placeholder="Notes"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              className="form-control"
-              style={{ border: "1px solid black" }}
-            ></textarea>
           </div>
 
           <div className="col-xl-6">
@@ -513,13 +565,6 @@ const CandidateSignUp = () => {
               className="form-control"
               style={{ border: "1px solid black" }}
             />
-            <textarea
-              placeholder="Notes"
-              value={experienceNotes}
-              onChange={(e) => setExperienceNotes(e.target.value)}
-              className="form-control"
-              style={{ border: "1px solid black" }}
-            ></textarea>
           </div>
 
           <div className="col-xl-12">

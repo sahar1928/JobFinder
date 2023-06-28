@@ -169,7 +169,7 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Education.cs" />
     <Compile Include="Models\Enums.cs" />
-    <Compile Include="Models\Expirience.cs" />
+    <Compile Include="Models\Experience.cs" />
     <Compile Include="Models\Job.cs" />
     <Compile Include="Models\JobDescription.cs" />
     <Compile Include="Models\Match.cs" />

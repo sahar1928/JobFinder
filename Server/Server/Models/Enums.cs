@@ -38,7 +38,7 @@
         NonProfit
     }
 
-    public enum CandidateType
+    public enum ProfessionalTitle
     {
         Developer,
         Designer,
