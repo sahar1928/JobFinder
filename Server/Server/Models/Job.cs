@@ -13,10 +13,9 @@ namespace Server.Models
         public JobType JobType { get; set; }
         public JobCategory JobCategory { get; set; }
         public decimal ExpectedSalary { get; set; }
-        public string PreviousExperience { get; set; }
-        public JobDescription JobDescription { get; set; }
-        public List<string> JobTags { get; set; }
-        public Range Salary { get; set; }
+        public int SalaryMin { get; set; }
+        public int SalaryMax { get; set; }
+        public List<SkillAndExperience> SkillAndExperience { get; set; }
         public Company Company { get; set; }
     }
 
