@@ -4,14 +4,14 @@ namespace Server.Models
 {
     public class Company
     {
+        public int Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public string Email { get; set; }
+        public Uri EmailUrl { get; set; }
         public string Name { get; set; }
         public Uri Website { get; set; }
-        public Uri VideoUrl { get; set; }
         public SocialMedia SocialMedia { get; set; }
         public string Description { get; set; }
-        public Uri Logo { get; set; }
+        public byte[] Logo { get; set; }
     }
 }

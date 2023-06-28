@@ -43,9 +43,21 @@
         Developer,
         Designer,
         Tester,
-        Manager
+        Manager,
+        BusinessAnalyst,
+        ProjectManager,
+        DataScientist,
+        SalesExecutive,
+        MarketingSpecialist,
+        FinancialAnalyst,
+        HumanResourcesManager,
+        CustomerServiceRepresentative,
+        SoftwareEngineer,
+        ProductManager,
+        OperationsManager
     }
 
+   
     public enum JobType
     {
         FullTime,
