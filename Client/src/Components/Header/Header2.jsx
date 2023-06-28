@@ -12,7 +12,7 @@ const Header2 = () => {
                     <div className="col-xl-3 col-lg-3 col-7">
                         <div className="jm-header-logo jm-header-logo-2">
                             <Link className="jm-logo" to="/">
-                                <img src="dist/assets/img/logo/logowhite.png" alt="Image Not Fouund"/>
+                                <img src="dist/assets/img/logo/LogoWhite.png" alt="Image Not Fouund"/>
                             </Link>
                         </div>
                     </div>

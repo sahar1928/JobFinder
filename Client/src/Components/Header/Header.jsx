@@ -31,7 +31,7 @@ const Header = () => {
                         <div className="col-xl-3 col-lg-3  col-7">
                             <div className="jm-header-logo">
                                 <Link className="jm-logo" to="/">
-                                    <img src="dist/assets/img/logo/logo.png" alt="Image Not Fouund"/>
+                                    <img src="dist/assets/img/logo/Logo.png" alt="Image Not Fouund"/>
                                 </Link>
                             </div>
                         </div>
