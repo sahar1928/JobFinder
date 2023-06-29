@@ -1,47 +1,33 @@
-﻿using System;
+﻿using Server.Models;
+using System;
 using System.Configuration;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
+using System.IO;
+using System.Web;
 using System.Web.Http;
-using Server.Models;
-using Newtonsoft.Json;
 
 namespace Server.Controllers
 {
     public class CandidatesController : ApiController
     {
         [HttpPost]
-        public async Task<IHttpActionResult> CreateResume(Candidate candidate)
+        public IHttpActionResult CreateResume(Candidate candidate)
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
 
-                // Save the resume and get the resume ID
-                int resumeId = await SaveResume(candidate.Resume);
+                int socialMediaId = SaveSocialMedia(candidate.SocialMedia);
 
-                if (resumeId > 0)
-                {
-                    // Save the social media links
-                    int socialMediaId = await SaveSocialMedia(candidate.SocialMedia);
 
-                    // Save the candidate
-                    await SaveCandidate(candidate, resumeId, socialMediaId);
+                int resumeId = SaveResume(candidate.Resume, socialMediaId);
 
-                    // Save education and experience
-                    await SaveEducation(candidate.Resume, resumeId);
-                    await SaveExperience(candidate.Resume, resumeId);
 
-                    return Ok();
-                }
-                else
-                {
-                    return InternalServerError(new Exception("Failed to save resume details."));
-                }
+                SaveCandidate(candidate, resumeId, socialMediaId);
+
+                SaveEducation(candidate.Resume, resumeId);
+                SaveExperience(candidate.Resume, resumeId);
+
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -49,113 +35,142 @@ namespace Server.Controllers
             }
         }
 
-        private async Task<int> SaveResume(Resume resume)
+        private int SaveSocialMedia(SocialMedia socialMedia)
         {
-            // Prepare the form data and send the request to the server
-            using (var client = new HttpClient())
+            var connectionString = ConfigurationManager.ConnectionStrings["DBConnectionString"].ConnectionString;
+            using (var connection = new SqlConnection(connectionString))
             {
-                var apiUrl = ConfigurationManager.AppSettings["DBConnectionString"];
-                var response = await client.PostAsJsonAsync(apiUrl + "resume", resume);
+                connection.Open();
+                using (var command = new SqlCommand("INSERT INTO SocialMedia (LinkedinURL, TwitterURL, FacebookURL, PinterestURL, InstagramURL) " +
+                                                    "VALUES (@LinkedinURL, @TwitterURL, @FacebookURL, @PinterestURL, @InstagramURL);" +
+                                                    "SELECT SCOPE_IDENTITY()", connection))
+                {
+                    command.Parameters.AddWithValue("@LinkedinURL", socialMedia.LinkedinURL);
+                    command.Parameters.AddWithValue("@TwitterURL", socialMedia.TwitterURL);
+                    command.Parameters.AddWithValue("@FacebookURL", socialMedia.FacebookURL);
+                    command.Parameters.AddWithValue("@PinterestURL", socialMedia.PinterestURL);
+                    command.Parameters.AddWithValue("@InstagramURL", socialMedia.InstagramURL);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    // Parse the response to get the resume ID
-                    var responseBody = await response.Content.ReadAsStringAsync();
-                    var resumeId = int.Parse(responseBody);
-                    return resumeId;
-                }
-                else
-                {
-                    return 0;
+                    return Convert.ToInt32(command.ExecuteScalar());
                 }
             }
         }
 
-        private async Task<int> SaveSocialMedia(SocialMedia socialMedia)
+        private int SaveResume(Resume resume, int socialMediaId)
         {
-            // Prepare the social media data and send the request to the server
-            using (var client = new HttpClient())
+            var connectionString = ConfigurationManager.ConnectionStrings["DBConnectionString"].ConnectionString;
+            using (var connection = new SqlConnection(connectionString))
             {
-                var apiUrl = ConfigurationManager.AppSettings["DBConnectionString"];
-                var response = await client.PostAsJsonAsync(apiUrl + "socialmedia", socialMedia);
+                connection.Open();
 
-                if (response.IsSuccessStatusCode)
+                using (var command = connection.CreateCommand())
                 {
-                    // Parse the response to get the social media ID
-                    var responseBody = await response.Content.ReadAsStringAsync();
-                    var socialMediaId = int.Parse(responseBody);
-                    return socialMediaId;
-                }
-                else
-                {
-                    return 0;
+                    command.CommandText = "INSERT INTO Resume (FullName, Email, ProfessionalTitle, Location, Date, ResumeCategory, SocialMediaId, PhotoFile, ResumeFile) " +
+                                          "VALUES (@FullName, @Email, @ProfessionalTitle, @Location, CONVERT(date, @Date, 103), @ResumeCategory, @SocialMediaId, @PhotoFile, @ResumeFile);" +
+                                          "SELECT SCOPE_IDENTITY()";
+
+                    command.Parameters.AddWithValue("@FullName", resume.FullName);
+                    command.Parameters.AddWithValue("@Email", resume.Email);
+                    command.Parameters.AddWithValue("@ProfessionalTitle", resume.ProfessionalTitle);
+                    command.Parameters.AddWithValue("@Location", resume.Location);
+                    command.Parameters.AddWithValue("@Date", DateTime.Parse(resume.Date));
+                    command.Parameters.AddWithValue("@ResumeCategory", resume.ResumeCategory);
+                    command.Parameters.AddWithValue("@SocialMediaId", socialMediaId);
+                    command.Parameters.AddWithValue("@PhotoFile", resume.PhotoFile);
+                    command.Parameters.AddWithValue("@ResumeFile", resume.ResumeFile);
+
+                    return Convert.ToInt32(command.ExecuteScalar());
                 }
             }
         }
 
-        private async Task SaveCandidate(Candidate candidate, int resumeId, int socialMediaId)
+        private int SaveCandidate(Candidate candidate, int resumeId, int socialMediaId)
         {
-            // Prepare the candidate data and send the request to the server
-            using (var client = new HttpClient())
+            var connectionString = ConfigurationManager.ConnectionStrings["DBConnectionString"].ConnectionString;
+            using (var connection = new SqlConnection(connectionString))
             {
-                var apiUrl = ConfigurationManager.AppSettings["DBConnectionString"];
-                var response = await client.PostAsJsonAsync(apiUrl + "candidate", new
-                {
-                    candidate.Id,
-                    candidate.Username,
-                    candidate.Password,
-                    candidate.EmailUrl,
-                    candidate.FirstName,
-                    candidate.LastName,
-                    candidate.DateOfBirth,
-                    candidate.Gender,
-                    ResumeId = resumeId,
-                    SocialMediaId = socialMediaId
-                });
+                connection.Open();
 
-                if (!response.IsSuccessStatusCode)
+                using (var command = connection.CreateCommand())
                 {
-                    throw new Exception("Failed to save candidate details.");
+                    command.CommandText = "INSERT INTO Candidate (Username, Password, EmailUrl, FirstName, LastName, DateOfBirth, Gender, ResumeId, SocialMediaId) " +
+                                          "VALUES (@Username, @Password, @EmailUrl, @FirstName, @LastName, @DateOfBirth, @Gender, @ResumeId, @SocialMediaId)";
+
+                    command.Parameters.AddWithValue("@Username", candidate.Username);
+                    command.Parameters.AddWithValue("@Password", candidate.Password);
+                    command.Parameters.AddWithValue("@EmailUrl", candidate.EmailUrl);
+                    command.Parameters.AddWithValue("@FirstName", candidate.FirstName);
+                    command.Parameters.AddWithValue("@LastName", candidate.LastName);
+                    command.Parameters.AddWithValue("@DateOfBirth", DateTime.Parse(candidate.DateOfBirth));
+                    command.Parameters.AddWithValue("@Gender", candidate.Gender);
+                    command.Parameters.AddWithValue("@ResumeId", resumeId);
+                    command.Parameters.AddWithValue("@SocialMediaId", socialMediaId);
+
+                    return command.ExecuteNonQuery();
                 }
             }
         }
 
-        private async Task SaveEducation(Resume resume, int resumeId)
+        private void SaveEducation(Resume resume, int resumeId)
         {
-            // Prepare the education data and send the request to the server
-            using (var client = new HttpClient())
+            var connectionString = ConfigurationManager.ConnectionStrings["DBConnectionString"].ConnectionString;
+            using (var connection = new SqlConnection(connectionString))
             {
-                var apiUrl = ConfigurationManager.AppSettings["DBConnectionString"];
-                var response = await client.PostAsJsonAsync(apiUrl + "education", new
-                {
-                    ResumeId = resumeId,
-                    resume.Educations
-                });
+                connection.Open();
 
-                if (!response.IsSuccessStatusCode)
+                foreach (var education in resume.Educations)
                 {
-                    throw new Exception("Failed to save education details.");
+                    using (var command = connection.CreateCommand())
+                    {
+                        command.CommandText = "INSERT INTO Education (InstitutionName, Qualification, StartDate, EndDate, ResumeId) " +
+                                              "VALUES (@InstitutionName, @Qualification, @StartDate, @EndDate, @ResumeId)";
+
+                        command.Parameters.AddWithValue("@InstitutionName", education.InstitutionName);
+                        command.Parameters.AddWithValue("@Qualification", education.Qualification);
+                        command.Parameters.AddWithValue("@StartDate", DateTime.Parse(education.StartDate));
+                        command.Parameters.AddWithValue("@EndDate", DateTime.Parse(education.EndDate));
+                        command.Parameters.AddWithValue("@ResumeId", resumeId);
+
+                        command.ExecuteNonQuery();
+                    }
                 }
             }
         }
 
-        private async Task SaveExperience(Resume resume, int resumeId)
+        private void SaveExperience(Resume resume, int resumeId)
         {
-            // Prepare the experience data and send the request to the server
-            using (var client = new HttpClient())
+            var connectionString = ConfigurationManager.ConnectionStrings["DBConnectionString"].ConnectionString;
+            using (var connection = new SqlConnection(connectionString))
             {
-                var apiUrl = ConfigurationManager.AppSettings["DBConnectionString"];
-                var response = await client.PostAsJsonAsync(apiUrl + "experience", new
-                {
-                    ResumeId = resumeId,
-                    resume.Experiences
-                });
+                connection.Open();
 
-                if (!response.IsSuccessStatusCode)
+                foreach (var experience in resume.Experiences)
                 {
-                    throw new Exception("Failed to save experience details.");
+                    using (var command = connection.CreateCommand())
+                    {
+                        command.CommandText = "INSERT INTO Experience (EmployerName, JobTitle, StartDate, EndDate, ResumeId) " +
+                                              "VALUES (@EmployerName, @JobTitle, @StartDate, @EndDate, @ResumeId)";
+
+                        command.Parameters.AddWithValue("@EmployerName", experience.EmployerName);
+                        command.Parameters.AddWithValue("@JobTitle", experience.JobTitle);
+                        command.Parameters.AddWithValue("@StartDate", DateTime.Parse(experience.StartDate));
+                        command.Parameters.AddWithValue("@EndDate", DateTime.Parse(experience.EndDate));
+                        command.Parameters.AddWithValue("@ResumeId", resumeId);
+
+                        command.ExecuteNonQuery();
+                    }
                 }
             }
+        }
+
+        private byte[] GetFileBytes(HttpPostedFileBase file)
+        {
+            byte[] fileBytes;
+            using (var binaryReader = new BinaryReader(file.InputStream))
+            {
+                fileBytes = binaryReader.ReadBytes(file.ContentLength);
+            }
+            return fileBytes;
         }
     }
 }

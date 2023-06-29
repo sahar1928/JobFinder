@@ -6,7 +6,6 @@ import FeaturedJobs from '../Jobs/FeaturedJobs'
 import WorkArea from '../Work Area/WorkArea'
 import SignIn from './SignInMain'
 import FeaturedCandidate from '../Candidates/FeaturedCandidate'
-import VideoArea2 from '../Video Area/VideoArea2'
 import BlogArea from '../Blog Area/BlogArea'
 import JobSearchHero from '../Job Search/JobSearchHero'
 
@@ -20,7 +19,6 @@ const HomePageMain2 = () => {
         <FeaturedJobs/>
         <WorkArea/>
         <FeaturedCandidate/>
-        <VideoArea2/>
         <BlogArea/>
         <SignIn/>
     </main>

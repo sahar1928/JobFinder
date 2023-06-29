@@ -28,10 +28,10 @@ const Footer = () => {
             <div className="col-xl-4 col-lg-4 col-md-12 col-sm-8">
               <div className="jm-footer-widget-2 mb-40">
                 <div className="jm-footer-widget-logo-2">
-                  <Link to="/"><img src="assets/img/logo/logowhite.png" alt="" /></Link>
+                  <Link to="/"><img src="/dist/assets/img/logo/logowhite.png" alt="" /></Link>
                 </div>
                 <div className="jm-footer-widget-content-2">
-                  <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantiu doloremque laudantium</p>
+                  <p>Best Web in the world</p>
                   <div className="jm-footer-widget-social-2">
                     <Link to="#"><i className="fab fa-facebook-f"></i></Link>
                     <Link to="#"><i className="fab fa-pinterest-p"></i></Link>
@@ -72,8 +72,8 @@ const Footer = () => {
                 <h4 className="jm-footer-widget-title-2">Contact</h4>
                 <div className="jm-footer-widget-contact-2">
                   <ul className="jm-footer-widget-contact-list-2">
-                    <li><Link to="tel:(+1)260-235-0551"><i className="fa-thin fa-phone"></i>(+1) 260-235-0551</Link></li>
-                    <li><Link to="mailto:example@mail.com"><i className="fa-thin fa-envelope"></i>example@mail.com</Link></li>
+                    <li><Link to="tel:(+972)504235000"><i className="fa-thin fa-phone"></i>(+972)504235000</Link></li>
+                    <li><Link to="mailto:sahar093@gmail.com"><i className="fa-thin fa-envelope"></i>SaharAndLidor@mail.com</Link></li>
                   </ul>
                 </div>
                 <h4 className="jm-footer-widget-title-2">Payments</h4>

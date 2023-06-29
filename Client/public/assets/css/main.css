@@ -1,49 +1,4 @@
-/*
-************
-*************************
 
-   Template Name: Jobmont - Job-Portal HTML Template
-   Description: Jobmont is a and Jobmont - job-Portal HTML Template. mechanical, power, and energy Business Template. The industry contains a definite sort of home pages like Solar Plant, Agriculture, Ship Industry, Leather Industry, Nuclear Plant, Car Industry, Plastic Industry, Construct, steel mill , and more. It includes everything that you simply got to achieve in terms of cool HTML Template. It covers a special sort of inner pages like about us It is a modern and clean HTML template, 
-   Author: codebasket
-   Version: 1.0
-
------------------------------------------------------------------------------------
-
-CSS INDEX
-=================== 
-01. common
-02. header
-03. breadcrumb
-04. button
-05. banner
-06. sidebar
-07. about
-08. services
-09. service details
-10. category
-11. work
-12. video
-13. job
-14. counter
-15. team
-16. team details
-17. price
-18. blog
-19. blog details
-20. brand
-21. browse job
-22. contact
-23. back to top
-24. footer
-
-******************************************************* 
-*************************************************************** */
-/*
-************
-*************************
-01. common
-******************************************************* 
-*************************************************************** */
 @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap");
 body {
   font-family: "Red Hat Text", sans-serif;
@@ -7023,7 +6978,6 @@ blog sidebar area
 }
 
 .jm-job-sign-text {
-  border: 1px solid #f1f1f1;
   padding: 20px;
 }
 

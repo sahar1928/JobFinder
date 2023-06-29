@@ -165,6 +165,25 @@ const jobs = [
     },
   ];
 
+  const professionalTitles = [
+    "Developer",
+    "Designer",
+    "Tester",
+    "Manager",
+    "Business Analyst",
+    "Project Manager",
+    "Data Scientist",
+    "Sales Executive",
+    "Marketing Specialist",
+    "Financial Analyst",
+    "Human Resources Manager",
+    "Customer Service Representative",
+    "Software Engineer",
+    "Product Manager",
+    "Operations Manager",
+  ];
+  
+
     const skills = [
       {
         id: 1,
@@ -521,4 +540,4 @@ const locations = [
       name: "Tirat Carmel"
     }
   ]
-  export {jobs,tabPanes, candidates,locations, skills}
+  export {jobs,tabPanes, candidates,locations, skills, professionalTitles}

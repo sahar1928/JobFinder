@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import CompanyLocation from '../Location/CompanyLocation';
 
 const ContactArea = () => {
   const [formData, setFormData] = useState({
@@ -99,9 +100,7 @@ const ContactArea = () => {
             </div>
           </div>
           <div className="col-xl-4 col-lg-5">
-            <div className="jm-contact-map ml-40">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d118930.0954048538!2d-157.8691130847656!3d21.328179205925203!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7c00183b8cc3464d%3A0x4b28f55ff3a7976c!2z4Ka54Kao4Kay4KeB4Kay4KeBLCDgprngpr7gppPgpq_gprzgpr7gpocsIOCmruCmvuCmsOCnjeCmleCmv-CmqCDgpq_gp4HgppXgp43gpqTgprDgpr7gprfgp43gpp_gp43gprA!5e0!3m2!1sbn!2sbd!4v1653500685513!5m2!1sbn!2sbd"></iframe>
-            </div>
+          <CompanyLocation selectedCity="Tel Aviv-Yafo"/>
           </div>        
           </div>
       </div>

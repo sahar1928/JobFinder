@@ -1,5 +1,4 @@
 ﻿using Server.Models.enums;
-using System;
 using System.Collections.Generic;
 
 namespace Server.Models
@@ -8,7 +7,7 @@ namespace Server.Models
     {
         public int Id { get; set; }
         public string JobTitle { get; set; }
-        public Uri EmailUrl { get; set; }
+        public string EmailUrl { get; set; }
         public string Location { get; set; }
         public JobType JobType { get; set; }
         public JobCategory JobCategory { get; set; }

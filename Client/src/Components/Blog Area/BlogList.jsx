@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import BlogVideoModal from './BlogVideoModal'
 import BlogListSlider from './BlogListSlider'
 
 const BlogList = () => {
@@ -46,7 +45,6 @@ const BlogList = () => {
                             </div>
                         </div>
                         <div className="col-12">
-                            <BlogVideoModal/>
                         </div>
                         <div className="col-12">
                             <div className="jm-blog-item-2 mb-40">

@@ -34,15 +34,15 @@ const SidePanel = () => {
             <h4 className="jm-sidebar-contact-title">Contact Info</h4>
             <span className="sidebar-address">
               <i className="fal fa-map-marker-alt"></i>
-              <span>10221 Hollywood Blvd, los angeles USA</span>
+              <span>Tel Aviv-Yafo, Israel</span>
             </span>
             <Link to="tel:(+99)012345678">
               <i className="fal fa-phone"></i>
-              <span>(+99)012345678</span>
+              <span>(+972)50-4235000</span>
             </Link>
-            <Link to="mailto:examplesite@gmail.com" className="theme-3">
+            <Link to="mailto:Sahar093@gmail.com" className="theme-3">
               <i className="fal fa-envelope"></i>
-              <span><span>examplesite@gmail.com</span></span>
+              <span><span>SaharAndLidor@gmail.com</span></span>
             </Link>
           </div>
 

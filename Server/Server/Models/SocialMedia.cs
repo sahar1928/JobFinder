@@ -1,14 +1,12 @@
-﻿using System;
-
-namespace Server.Models
+﻿namespace Server.Models
 {
     public class SocialMedia
     {
-        public Uri LinkedinURL { get; set; }
-        public Uri TwitterURL { get; set; }
-        public Uri FacebookURL { get; set; }
-        public Uri PinterestURL { get; set; }
-        public Uri InstagramURL { get; set; }
+        public string LinkedinURL { get; set; }
+        public string TwitterURL { get; set; }
+        public string FacebookURL { get; set; }
+        public string PinterestURL { get; set; }
+        public string InstagramURL { get; set; }
     }
 
 }

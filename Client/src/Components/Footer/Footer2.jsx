@@ -9,7 +9,7 @@ const Footer2 = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="jm-footer-top-logo-3 text-center mb-50">
-                                <Link to="/homePage2"><img src="assets/img/logo/logowhite.png" alt=""/></Link>
+                                <Link to="/homePage2"><img src="dist/assets/img/logo/logowhite.png" alt=""/></Link>
                             </div>
                             <div className="jm-footer-top-subscribe-3">
                                 <div className="row align-items-center">

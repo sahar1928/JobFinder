@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace Server.Models
+﻿namespace Server.Models
 {
     public class Experience
     {
         public string EmployerName { get; set; }
         public string JobTitle { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
     }
 }

@@ -12,7 +12,7 @@ const Header = () => {
                     <div className="row align-items-center">
                         <div className="col-xl-7 col-md-8">
                             <div className="jm-header-top-cta">
-                                <span><i className="fas fa-map-marker-alt"></i>27/52 Avenue, NY USA 685.</span>
+                                <span><i className="fas fa-map-marker-alt"></i>Tel Aviv-Yafo, Israel</span>
                                 <span><i className="fal fa-clock"></i>Mon - Sat 8.00 - 18.00.</span>
                             </div>
                         </div>
@@ -31,7 +31,7 @@ const Header = () => {
                         <div className="col-xl-3 col-lg-3  col-7">
                             <div className="jm-header-logo">
                                 <Link className="jm-logo" to="/">
-                                    <img src="dist/assets/img/logo/Logo.png" alt="Image Not Fouund"/>
+                                    <img src="dist/assets/img/logo/logo.png" alt="Image Not Fouund"/>
                                 </Link>
                             </div>
                         </div>

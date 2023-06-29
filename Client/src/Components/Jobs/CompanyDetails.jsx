@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import CompanyLocation from '../Location/CompanyLocation'
 const CompanyDetails = () => {
   return (
     <div className="jm-candidate-area pt-100 pb-60">
@@ -8,9 +9,9 @@ const CompanyDetails = () => {
                 <div className="col-lg-4 order-1 order-lg-0">
                     <div className="jm-candidate-author-wrapper mr-25 mb-40">
                         <div className="jm-candidate-avater-portion jm-company-logo">
-                            <img src="assets/img/logo/company-logo.png" alt="img"/>
-                            <h4 className="jm-candidate-avater-name">Speeddigit Software Solution</h4>
-                            <span className="jm-candidate-designation">Software Company</span>
+                            <img src="dist/assets/img/logo/logo.png" alt="img"/>
+                            <h4 className="jm-candidate-avater-name">JobsFinder business and employment-focused social media platform </h4>
+                            <span className="jm-candidate-designation">Social Media Platforms</span>
                             <div className="jm-candidate-favour-rating">
                                 <span className="jm-candidate-rating">
                                     <i className="fa-thin fa-star"></i>
@@ -33,13 +34,13 @@ const CompanyDetails = () => {
                         <div className="jm-candidate-profile-overview-portion">
                             <h4 className="jm-candidate-profile-overview-title">Company Overview</h4>
                             <ul className="jm-job-sidebar-review-list mb-15">
-                                <li><i className="fa-thin fa-user"></i> <span className="jm-job-review-label">Owner : </span> <span className="job-review-value">Khorshed Islam</span></li>
-                                <li><i className="fa-light fa-transgender"></i> <span className="jm-job-review-label">Gender : </span> <span className="job-review-value">Male</span></li>
+                                <li><i className="fa-thin fa-user"></i> <span className="jm-job-review-label">Owners : </span> <span className="job-review-value">Sahar and Lidor</span></li>
+                                <li><i className="fa-light fa-transgender"></i> <span className="jm-job-review-label">Gender : </span> <span className="job-review-value">Males</span></li>
                                 <li><i className="fa-thin fa-users"></i> <span className="jm-job-review-label">Employees : </span> <span className="job-review-value">150-250</span></li>
                                 <li><i className="fa-thin fa-building"></i> <span className="jm-job-review-label">Industry : </span> <span className="job-review-value">Private</span></li>
-                                <li><i className="fa-thin fa-globe"></i> <span className="jm-job-review-label">Website : </span> <Link target="_blank" to="http://speeddigit.com/" className="job-review-value">speeddigit.com</Link></li>
-                                <li><i className="fa-thin fa-location-crosshairs"></i> <span className="jm-job-review-label">Location : </span> <span className="job-review-value">New York, USA</span></li>
-                                <li><i className="fa-thin fa-star-sharp-half-stroke"></i> <span className="jm-job-review-label">Estabished : </span> <span className="job-review-value">25 Oct, 2015</span></li>
+                                <li><i className="fa-thin fa-globe"></i> <span className="jm-job-review-label">Website : </span> <Link target="_blank" to="http://www.JobsFinder.com/" className="job-review-value">JobsFinder.com</Link></li>
+                                <li><i className="fa-thin fa-location-crosshairs"></i> <span className="jm-job-review-label">Location : </span> <span className="job-review-value">Tel Aviv-Yafo, Israel</span></li>
+                                <li><i className="fa-thin fa-star-sharp-half-stroke"></i> <span className="jm-job-review-label">Estabished : </span> <span className="job-review-value">04 July, 2023</span></li>
                             </ul>
                             <div className="jm-candidate-profile-buttons mt-25">
                                 <Link to="#" className="jm-candidate-d-btn"><i className="fa-thin fa-phone"></i>Contact Us</Link>
@@ -59,9 +60,7 @@ const CompanyDetails = () => {
                         </div>
                         <div className="jm-candidate-profile-overview-portion">
                             <h4 className="jm-candidate-profile-overview-title">Company Location</h4>
-                            <div className="jm-company-sidebar-map">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3648.8041443003613!2d90.39871211540333!3d23.861087590454815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b9884c556831%3A0xbf922ce212df4e67!2sSpeedDigit%20Software%20Solution!5e0!3m2!1sbn!2sbd!4v1671361596282!5m2!1sbn!2sbd"></iframe>
-                            </div>
+                                <CompanyLocation selectedCity="Tel Aviv-Yafo"/>
                         </div>
 
                     </div>
@@ -71,7 +70,6 @@ const CompanyDetails = () => {
                         <div className="jm-candidate-content-about mb-30">
                             <h4 className="jm-candidate-content-inner-title">About Company</h4>
                             <p>Very well thought out and articulate communication. Clear milestones, deadlines and fast work. Patience. Infinite patience. No shortcuts. Even if the client is being careless. Some quick example text to build on the card title and bulk the card's content Moltin gives you platform.</p>
-                            <iframe src="https://www.youtube-nocookie.com/embed/pWOv9xcoMeY"></iframe>
                             <p>
                             As a highly skilled and successfull product development and design specialist with more than 4 Years of My experience lies in successfully conceptualizing, designing, and modifying consumer products specific to interior design and home furnishings.</p>
                         </div>

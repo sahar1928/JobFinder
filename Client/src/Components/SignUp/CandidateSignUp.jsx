@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { URL } from "../../Data/URL";
-import { skills } from "../../Data/JobsData";
+import { skills, professionalTitles, locations } from "../../Data/JobsData";
 
 const CandidateSignUp = () => {
   const [username, setUsername] = useState("");
@@ -10,11 +10,10 @@ const CandidateSignUp = () => {
   const [gender, setGender] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [emailUrl, setEmailUrl] = useState("");
   const [professionalTitle, setProfessionalTitle] = useState("");
   const [location, setLocation] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
-  const [videoURL, setVideoURL] = useState("");
   const [resumeCategory, setResumeCategory] = useState("");
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [availableSkills, setAvailableSkills] = useState(skills);
@@ -23,12 +22,14 @@ const CandidateSignUp = () => {
   );
   const [linkedinURL, setLinkedinURL] = useState("");
   const [facebookURL, setFacebookURL] = useState("");
+  const [pinterestURL, setPinterestURL] = useState("");
+  const [instagramURL, setInstagramURL] = useState("");
+  const [twitterURL, setTwitterURL] = useState("");
   const [photoFile, setPhotoFile] = useState(null);
   const [institutionName, setInstitutionName] = useState("");
   const [qualification, setQualification] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [notes, setNotes] = useState("");
   const [employerName, setEmployerName] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [experienceStartDate, setExperienceStartDate] = useState("");
@@ -37,18 +38,17 @@ const CandidateSignUp = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
+    console.log("ho");
     if (
       !username ||
       !password ||
       !confirmPassword ||
       !firstName ||
       !lastName ||
-      !email ||
+      !emailUrl ||
       !professionalTitle ||
       !location ||
       !dateOfBirth ||
-      !videoURL ||
       !resumeCategory ||
       !selectedSkills ||
       !photoFile ||
@@ -56,13 +56,34 @@ const CandidateSignUp = () => {
       !qualification ||
       !startDate ||
       !endDate ||
-      !notes ||
       !employerName ||
       !jobTitle ||
       !experienceStartDate ||
       !experienceEndDate ||
       !resumeFile
     ) {
+      if (!username) console.log("username is null");
+      if (!password) console.log("password is null");
+      if (!confirmPassword) console.log("confirmPassword is null");
+      if (!firstName) console.log("firstName is null");
+      if (!lastName) console.log("lastName is null");
+      if (!emailUrl) console.log("email is null");
+      if (!professionalTitle) console.log("professionalTitle is null");
+      if (!location) console.log("location is null");
+      if (!dateOfBirth) console.log("dateOfBirth is null");
+      if (!resumeCategory) console.log("resumeCategory is null");
+      if (!selectedSkills) console.log("selectedSkills is null");
+      if (!photoFile) console.log("photoFile is null");
+      if (!institutionName) console.log("institutionName is null");
+      if (!qualification) console.log("qualification is null");
+      if (!startDate) console.log("startDate is null");
+      if (!endDate) console.log("endDate is null");
+      if (!employerName) console.log("employerName is null");
+      if (!jobTitle) console.log("jobTitle is null");
+      if (!experienceStartDate) console.log("experienceStartDate is null");
+      if (!experienceEndDate) console.log("experienceEndDate is null");
+      if (!resumeFile) console.log("resumeFile is null");
+
       toast.error("Please fill all the required fields");
       return;
     }
@@ -72,95 +93,121 @@ const CandidateSignUp = () => {
       return;
     }
 
+    const dateTimeOfBirth = new Date(dateOfBirth).toISOString();
+    const educationStartDate = new Date(startDate).toISOString();
+    const educationEndDate = new Date(endDate).toISOString();
+    const expStartDate = new Date(experienceStartDate).toISOString();
+    const expEndDate = new Date(experienceEndDate).toISOString();
+    console.log(dateTimeOfBirth);
     try {
-      const resumeData = {
-        firstName,
-        lastName,
-        email,
-        professionalTitle,
-        location,
-        dateOfBirth,
-        videoURL,
-        resumeCategory,
-        skills: selectedSkills,
-        socialMedia: {
-          linkedinURL,
-          facebookURL,
-        },
-        photoFile,
-        educations: [
-          {
-            institutionName,
-            qualification,
-            startDate,
-            endDate,
-            notes,
+      const reader = new FileReader();
+
+      reader.onload = async () => {
+        const photoData = new Uint8Array(reader.result);
+        const resumeData = new Uint8Array(reader.result);
+
+        const Resume = {
+          FullName: firstName + " " + lastName,
+          Email: emailUrl,
+          professionalTitle,
+          location,
+          Date: dateTimeOfBirth,
+          resumeCategory,
+          skills: selectedSkills,
+          socialMedia: {
+            linkedinURL,
+            twitterURL,
+            facebookURL,
+            pinterestURL,
+            instagramURL,
           },
-        ],
-        experiences: [
-          {
-            employerName,
-            jobTitle,
-            startDate: experienceStartDate,
-            endDate: experienceEndDate,
+          photoFile: Array.from(photoData),
+          educations: [
+            {
+              institutionName,
+              qualification,
+              StartDate: educationStartDate,
+              EndDate: educationEndDate,
+            },
+          ],
+          experiences: [
+            {
+              employerName,
+              jobTitle,
+              StartDate: expStartDate,
+              EndDate: expEndDate,
+            },
+          ],
+          resumeFile: Array.from(resumeData),
+        };
+
+        const candidate = {
+          username,
+          password,
+          emailUrl,
+          firstName,
+          lastName,
+          DateOfBirth: dateTimeOfBirth,
+          gender,
+          Resume,
+          professionalTitle,
+          socialMedia: {
+            linkedinURL,
+            twitterURL,
+            facebookURL,
+            pinterestURL,
+            instagramURL,
           },
-        ],
-        resumeFile,
+        };
+
+        try {
+          const response = await fetch(URL + "Candidates", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(candidate),
+          });
+
+          console.log(candidate);
+
+          if (response.ok) {
+            toast.success("Resume created successfully");
+            // Reset the form
+            setUsername("");
+            setPassword("");
+            setConfirmPassword("");
+            setEmailUrl("");
+            setProfessionalTitle("");
+            setLocation("");
+            setDateOfBirth("");
+            setResumeCategory("");
+            setSelectedSkills([]);
+            setAvailableSkills(skills);
+            setLinkedinURL("");
+            setFacebookURL("");
+            setPhotoFile(null);
+            setInstitutionName("");
+            setQualification("");
+            setStartDate("");
+            setEndDate("");
+            setEmployerName("");
+            setJobTitle("");
+            setExperienceStartDate("");
+            setExperienceEndDate("");
+            setResumeFile(null);
+          } else {
+            toast.error("Failed to create resume");
+          }
+        } catch (error) {
+          toast.error("An error occurred");
+        }
       };
 
-      const candidate = {
-        username,
-        password,
-        email,
-        firstName,
-        lastName,
-        dateOfBirth,
-        gender,
-        professionalTitle,
-        resumeData,
-        socialMedia: {
-          linkedinURL,
-          facebookURL,
-        },
-      };
-
-      const response = await fetch(URL + "Candidates", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(candidate),
-      });
-
-      if (response.ok) {
-        toast.success("Resume created successfully");
-        // Reset the form
-        setUsername("");
-        setPassword("");
-        setConfirmPassword("");
-        setEmail("");
-        setProfessionalTitle("");
-        setLocation("");
-        setDateOfBirth("");
-        setVideoURL("");
-        setResumeCategory("");
-        setSelectedSkills([]);
-        setAvailableSkills(skills);
-        setLinkedinURL("");
-        setFacebookURL("");
-        setPhotoFile(null);
-        setInstitutionName("");
-        setQualification("");
-        setStartDate("");
-        setEndDate("");
-        setNotes("");
-        setEmployerName("");
-        setJobTitle("");
-        setExperienceStartDate("");
-        setExperienceEndDate("");
-        setResumeFile(null);
-      } else {
-        toast.error("Failed to create resume");
+      if (photoFile) {
+        reader.readAsArrayBuffer(photoFile);
+      } else if (resumeFile) {
+        reader.readAsArrayBuffer(resumeFile);
       }
     } catch (error) {
       toast.error("An error occurred");
@@ -171,7 +218,7 @@ const CandidateSignUp = () => {
     const selectedSkill = {
       id: skill.id,
       name: skill.name,
-      experienceRanges: skill.experienceRanges, // Default range is the first one
+      experienceRanges: skill.experienceRanges,
     };
 
     setSelectedSkills([...selectedSkills, selectedSkill]);
@@ -196,23 +243,20 @@ const CandidateSignUp = () => {
   };
 
   const handleExperienceChange = (skillId, experienceRange) => {
-    const updatedSelectedExperienceAndSkill = selectedSkills.map(
-      (skill) => {
-        if (skill.id === skillId) {
-          return {
-            id: skill.id,
-            name: skill.name,
-            minExperience: experienceRange[0],
-            maxExperience: experienceRange[1],
-          };
-        }
-        return skill;
+    const updatedSelectedExperienceAndSkill = selectedSkills.map((skill) => {
+      if (skill.id === skillId) {
+        return {
+          id: skill.id,
+          name: skill.name,
+          minExperience: experienceRange[0],
+          maxExperience: experienceRange[1],
+        };
       }
-    );
+      return skill;
+    });
     console.log(updatedSelectedExperienceAndSkill);
     setSelectedExperienceAndSkill(updatedSelectedExperienceAndSkill);
   };
-  
 
   return (
     <div className="jm-post-job-area pt-95 pb-60">
@@ -220,15 +264,12 @@ const CandidateSignUp = () => {
         <div className="row align-items-center justify-content-center text-center">
           <div className="col-xl-8">
             <div className="jm-create-new-section mb-20">
-              <p className="jm-job-sign-text d-inline-block">
-                <h4 className="jm-have-account-title">
-                  {" "}
-                  Already Have an account?
-                </h4>
-                <a href="/signIn" className="jm-job-acc mr-15">
-                  Sign-in
-                </a>
-              </p>
+              <h4 className="jm-job-sign-text d-inline-block">
+                Already Have an account?
+              </h4>
+              <a href="/signIn" className="jm-job-acc mr-15">
+                Sign-in
+              </a>
             </div>
           </div>
         </div>
@@ -299,39 +340,49 @@ const CandidateSignUp = () => {
           </div>
           <div className="col-xl-6 col-md-6">
             <input
-              type="email"
+              type="text"
               placeholder="Your Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={emailUrl}
+              onChange={(e) => setEmailUrl(e.target.value)}
               className="form-control"
               style={{ border: "1px solid black" }}
             />
           </div>
           <div className="col-xl-6 col-md-6">
             <select
-              placeholder="Proffesional Title"
+              placeholder="Professional Title"
               className="jm-job-select form-control"
-              value={gender}
+              value={professionalTitle}
               onChange={(e) => setProfessionalTitle(e.target.value)}
               style={{ border: "1px solid black" }}
             >
-              <option selected value="">
-                Pro
+              <option value="" disabled>
+                Professional Title
               </option>
-              <option>Male</option>
-              <option>Female</option>
-              <option>Other</option>
+              {professionalTitles.map((title, index) => (
+                <option key={index} value={title}>
+                  {title}
+                </option>
+              ))}
             </select>
           </div>
           <div className="col-xl-6 col-md-6">
-            <input
-              type="text"
+            <select
               placeholder="Location"
+              className="jm-job-select form-control"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className="form-control"
               style={{ border: "1px solid black" }}
-            />
+            >
+              <option value="" disabled>
+                Location
+              </option>
+              {locations.map((location) => (
+                <option key={location.id} value={location.name}>
+                  {location.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="col-xl-6 col-md-6">
             <b>Date of Birth : </b>
@@ -345,16 +396,6 @@ const CandidateSignUp = () => {
             />
           </div>
           <div className="col-xl-6 col-md-6">
-            <input
-              type="url"
-              placeholder="Video URL"
-              value={videoURL}
-              onChange={(e) => setVideoURL(e.target.value)}
-              className="form-control"
-              style={{ border: "1px solid black" }}
-            />
-          </div>
-          <div className="col-xl-6 col-md-6">
             <select
               className="jm-job-select form-control"
               value={resumeCategory}
@@ -362,8 +403,8 @@ const CandidateSignUp = () => {
               style={{ border: "1px solid black" }}
             >
               <option>Resume Category</option>
-              <option>HTML</option>
-              <option>TEXT</option>
+              <option value="HTML">HTML</option>
+              <option value="TEXT">TEXT</option>
             </select>
           </div>
           <div className="col-xl-6 col-md-6">
@@ -374,12 +415,10 @@ const CandidateSignUp = () => {
               onChange={(e) => setGender(e.target.value)}
               style={{ border: "1px solid black" }}
             >
-              <option selected value="">
-                Gender Selection
-              </option>
-              <option>Male</option>
-              <option>Female</option>
-              <option>Other</option>
+              <option value="">Gender Selection</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
             </select>
           </div>
           <div className="col-xl-12 col-md-12">
@@ -451,8 +490,7 @@ const CandidateSignUp = () => {
               <b>Linkedin URL</b>
               <input
                 type="url"
-                placeholder="https://linkedin.com/in/profile"
-                pattern="https://linkedin.com/in/*"
+                placeholder="https://www.linkedin.com/in/profile"
                 value={linkedinURL}
                 onChange={(e) => setLinkedinURL(e.target.value)}
                 className="form-control"
@@ -464,13 +502,47 @@ const CandidateSignUp = () => {
               <input
                 type="url"
                 placeholder="https://www.facebook.com/profile"
-                pattern="http://www\.facebook\.com\/(.+)|https://www\.facebook\.com\/(.+)"
                 value={facebookURL}
                 onChange={(e) => setFacebookURL(e.target.value)}
                 className="form-control"
                 style={{ border: "1px solid black" }}
               />
             </div>
+          </div>
+          <div className="row">
+            <div className="col-xl-6 col-md-6">
+              <b>twitterURL</b>
+              <input
+                type="url"
+                placeholder="https://Twitter.com/"
+                value={twitterURL}
+                onChange={(e) => setTwitterURL(e.target.value)}
+                className="form-control"
+                style={{ border: "1px solid black" }}
+              />
+            </div>
+            <div className="col-xl-6 col-md-6">
+              <b>Instagram URL</b>
+              <input
+                type="url"
+                placeholder="https://www.instagram.com/"
+                value={instagramURL}
+                onChange={(e) => setInstagramURL(e.target.value)}
+                className="form-control"
+                style={{ border: "1px solid black" }}
+              />
+            </div>
+          </div>
+          <div className="col-xl-6 col-md-6">
+            <b>Pinterest URL</b>
+            <input
+              type="url"
+              placeholder="https://www.instagram.com/"
+              value={pinterestURL}
+              onChange={(e) => setPinterestURL(e.target.value)}
+              className="form-control"
+              style={{ border: "1px solid black" }}
+            />
           </div>
           <div className="col-xl-12">
             <div className="choose-file">
@@ -533,7 +605,7 @@ const CandidateSignUp = () => {
             <h4 className="jm-job-acc-title">Work Experience</h4>
             <input
               type="text"
-              placeholder="Employer Name"
+              placeholder="Company Name"
               value={employerName}
               onChange={(e) => setEmployerName(e.target.value)}
               className="form-control"
